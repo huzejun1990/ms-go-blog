@@ -102,7 +102,8 @@ func main() {
 		Addr: "127.0.0.1:8080",
 	}
 	//http.HandleFunc("/", indexHtml)
-	http.HandleFunc("/", index)
+	http.HandleFunc("/", index) // resource
+	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource"))))
 	if err := server.ListenAndServe(); err != nil {
 		log.Println(err)
 	}
