@@ -1,7 +1,55 @@
 // @Author huzejun 2024/5/7 21:52:00
 package dao
 
-import "ms-go-blog/models"
+import (
+	"log"
+	"ms-go-blog/models"
+)
+
+//标准参考的
+/*func SavePost(post *models.Post) {
+	ret, err := DB.Exec("insert into blog_post "+
+		"(title,content,markdown,category_id,user_id,view_count,type,slug,create_at,update_at) "+
+		"values(?,?,?,?,?,?,?,?,?,?)",
+		post.Title,
+		post.Content,
+		post.Markdown,
+		post.CategoryId,
+		post.UserId,
+		post.ViewCount,
+		post.Type,
+		post.Slug,
+		post.CreateAt,
+		post.UpdateAt,
+	)
+	if err != nil {
+		log.Println(err)
+	}
+	pid, _ := ret.LastInsertId()
+	post.Pid = int(pid)
+}*/
+// 自己编写的
+func SavePost(post *models.Post) {
+	ret, err := DB.Exec("insert into blog_post "+
+		"(title,content,markdown,category_id,user_id,view_count,type,slug,create_at,update_at) "+
+		"values(?,?,?,?,?,?,?,?,?,?)",
+		post.Title,
+		post.Content,
+		post.Markdown,
+		post.CategoryId,
+		post.UserId,
+		post.ViewCount,
+		post.Type,
+		post.Slug,
+		post.CreateAt,
+		post.UpdateAt,
+	)
+	if err != nil {
+		log.Println(err)
+	}
+	pid, _ := ret.LastInsertId()
+	post.Pid = int(pid)
+}
 
 func CountGetAllPostByCategoryId(cId int) (count int) {
 	rows := DB.QueryRow("select count(1) from blog_post where category_id = ?", cId)
