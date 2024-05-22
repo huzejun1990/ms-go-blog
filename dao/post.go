@@ -29,6 +29,40 @@ import (
 	post.Pid = int(pid)
 }*/
 // 自己编写的
+/*func UpdatePost(post *models.Post) {
+	//_, err := DB.Exec("update blog_post set title=?,content=?,markdown=?,category_id=?,type=?,slue=?,update_at=? where user_id=?",
+	_, err := DB.Exec("update blog_post set title=?,content=?,markdown=?,category_id=?,type=?,slue=?,update_at=? where user_id=?",
+		post.Type,
+		post.Content,
+		post.Markdown,
+		post.CategoryId,
+		post.Type,
+		post.Slug,
+		post.UpdateAt,
+		//post.UserId,
+		post.Pid,
+	)
+	if err != nil {
+		log.Println(err)
+	}
+}*/
+
+func UpdatePost(post *models.Post) {
+	_, err := DB.Exec("update blog_post set title=?,content=?,markdown=?,category_id=?,type=?,slug=?,update_at=? where pid=?",
+		post.Title,
+		post.Content,
+		post.Markdown,
+		post.CategoryId,
+		post.Type,
+		post.Slug,
+		post.UpdateAt,
+		post.Pid,
+	)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 func SavePost(post *models.Post) {
 	ret, err := DB.Exec("insert into blog_post "+
 		"(title,content,markdown,category_id,user_id,view_count,type,slug,create_at,update_at) "+
