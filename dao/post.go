@@ -105,6 +105,13 @@ func CountGetAllPostBySlug(slug string) (count int) {
 }
 
 func GetPostById(pid int) (models.Post, error) {
+	/*	p := &models.Post{}
+		err := DB.QueryTwo(p, "select * from blog_post where pid=?", pid)
+		return p, err
+		return nil, err*/
+	/*	p := &models.Post{}
+		err := DB.QueryOne(p, "select * from blog_post where pid=?", pid)
+		return p, err*/
 	row := DB.QueryRow("select * from blog_post where  pid = ?", pid)
 	var post models.Post
 	if row.Err() != nil {
