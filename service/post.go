@@ -57,3 +57,15 @@ func Writing() (wr models.WritingRes) {
 	wr.Categorys = category
 	return
 }
+
+func SearchPost(condition string) []models.SearchResp {
+	posts, _ := dao.GetPostSearch(condition)
+	var searchResps []models.SearchResp
+	for _, post := range posts {
+		searchResps = append(searchResps, models.SearchResp{
+			post.Pid,
+			post.Title,
+		})
+	}
+	return searchResps
+}
