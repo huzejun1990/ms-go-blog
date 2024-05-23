@@ -63,3 +63,10 @@ type WritingRes struct {
 	CdnURL    string
 	Categorys []Category
 }
+
+type PigeonholeRes struct {
+	config.Viewer
+	config.SystemConfig
+	Categorys []Category
+	Lines     map[string][]Post
+}
