@@ -97,6 +97,13 @@ func CountGetAllPost() (count int) {
 	return
 }
 
+// CountGetAllPostBySlug
+func CountGetAllPostBySlug(slug string) (count int) {
+	rows := DB.QueryRow("select count(1) from blog_post where slug=?", slug)
+	_ = rows.Scan(&count)
+	return
+}
+
 func GetPostById(pid int) (models.Post, error) {
 	row := DB.QueryRow("select * from blog_post where  pid = ?", pid)
 	var post models.Post
@@ -186,6 +193,36 @@ func GetPostAll() ([]models.Post, error) {
 func GetPostPageByCategoryId(cId, page, pageSize int) ([]models.Post, error) {
 	page = (page - 1) * pageSize
 	rows, err := DB.Query("SELECT * FROM blog_post where category_id = ? limit ?,?", cId, page, pageSize)
+	if err != nil {
+		return nil, err
+	}
+	var posts []models.Post
+	for rows.Next() {
+		var post models.Post
+		err := rows.Scan(
+			&post.Pid,
+			&post.Title,
+			&post.Content,
+			&post.Markdown,
+			&post.CategoryId,
+			&post.UserId,
+			&post.ViewCount,
+			&post.Type,
+			&post.Slug,
+			&post.CreateAt,
+			&post.UpdateAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+	return posts, nil
+}
+
+func GetPostPageBySlug(slug string, page, pageSize int) ([]models.Post, error) {
+	page = (page - 1) * pageSize
+	rows, err := DB.Query("SELECT * FROM blog_post where slug = ? limit ?,?", slug, page, pageSize)
 	if err != nil {
 		return nil, err
 	}

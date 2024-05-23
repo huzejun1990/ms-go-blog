@@ -76,8 +76,14 @@ func Date(layout string) string {
 	return time.Now().Format(layout)
 }
 
-func DateDay(date time.Time) string {
+//golang 格式化时间 不建议使用 2024-5-6 21:49:00 会出现 显示时间不标准
+/*func DateDay(date time.Time) string {
 	return date.Format("2024-5-6 21:49:00")
+}*/
+// golang 格式化时间 建议使用 2006-01-02
+func DateDay(date time.Time) string {
+	//return date.Format("2006-01-02 15:04:05")
+	return date.Format("2006-01-02 21:49:00")
 }
 
 func readTemplate(templates []string, templateDir string) ([]TemplateBlog, error) {
